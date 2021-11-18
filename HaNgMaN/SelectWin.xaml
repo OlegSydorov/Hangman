@@ -1,0 +1,121 @@
+﻿<Window x:Class="HaNgMaN.SelectWin"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HaNgMaN"
+        mc:Ignorable="d"
+         Title="Select level" Height="600" Width="300" ResizeMode="NoResize" WindowStyle="None" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <Style x:Key="textBoxStyle">
+            <Setter Property="TextBox.Background" Value="White" />
+            <Setter Property="TextBox.Foreground" Value="Green" />
+            <Setter Property="TextBox.FontFamily" Value="Bodoni MT Black" />
+            <Setter Property="TextBox.FontSize" Value="30" />
+            <Setter Property="TextBox.FontWeight" Value="Normal"/>
+            <Setter Property="TextBox.TextAlignment" Value="Center"/>
+            <Setter Property="TextBox.HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="TextBox.VerticalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style x:Key="labelStyle">
+            <Setter Property="TextBlock.Background" Value="White" />
+            <Setter Property="TextBlock.Foreground" Value="Green" />
+            <Setter Property="TextBlock.FontFamily" Value="Bodoni MT Black" />
+            <Setter Property="TextBlock.FontSize" Value="30" />
+            <Setter Property="TextBlock.FontWeight" Value="Normal"/>
+            <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+        </Style>
+
+        <ControlTemplate x:Key="buttonTemplate" TargetType="{x:Type Button}">
+            <Grid>
+                <Rectangle x:Name="rect1" RadiusX="20" RadiusY="20" Stroke="White" Width="{TemplateBinding Button.Width}" Height="{TemplateBinding Button.Height}" StrokeThickness="2">
+                    <Rectangle.Fill>
+                        <SolidColorBrush x:Name="MyAnimatedBrush" Color="LimeGreen" />
+                    </Rectangle.Fill>
+                    <Rectangle.Effect>
+                        <DropShadowEffect x:Name="shadow1" Opacity="1" BlurRadius="10" Color="Yellow"/>
+                    </Rectangle.Effect>
+                    <!--<Rectangle.RenderTransformOrigin>
+                        <Point X="0.5" Y="0.5"/>
+                    </Rectangle.RenderTransformOrigin>-->
+
+                    <!--<Rectangle.RenderTransform>
+                        <ScaleTransform x:Name="st1" ScaleX="1" ScaleY="1"/>
+                    </Rectangle.RenderTransform>-->
+                </Rectangle>
+                <ContentPresenter Margin="{TemplateBinding Button.Padding}" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{TemplateBinding Button.Content}"/>
+            </Grid>
+
+            <ControlTemplate.Triggers>
+                <Trigger Property="Button.IsMouseOver" Value="True">
+                    <Setter TargetName="rect1" Property="Fill" Value="LightGreen"/>
+                </Trigger>
+
+                <Trigger Property="Button.IsPressed" Value="True">
+                    <Setter Property="RenderTransform">
+                        <Setter.Value>
+                            <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="RenderTransformOrigin" Value=".5,.5"/>
+
+                    <Setter TargetName="rect1" Property="Fill" Value="DarkGreen"/>
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="shadow1"
+                                                 Storyboard.TargetProperty="BlurRadius"
+                                                 To="40" Duration="0:0:0.1"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+
+                    <!-- Триггер срабатывает на отжатие кнопки -->
+                    <Trigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="shadow1"
+                                                 Storyboard.TargetProperty="BlurRadius"
+                                                 To="10" Duration="0:0:0.1"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.ExitActions>
+                </Trigger>
+
+                <EventTrigger RoutedEvent="Button.Loaded">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="shadow1"
+                                                 Storyboard.TargetProperty="BlurRadius"                                             
+                                                 To="40" AutoReverse="true" RepeatBehavior="Forever" Duration="0:0:2"
+                                                 />
+                            <ColorAnimation Storyboard.TargetName="shadow1"
+                                            Storyboard.TargetProperty="Color"
+                                                 To="DarkGreen" AutoReverse="true" RepeatBehavior="Forever" Duration="0:0:2"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+                
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+
+    </Window.Resources>
+    <Grid Background="LimeGreen">
+        <Border BorderBrush="DarkGreen" BorderThickness="3">
+            <Border BorderBrush="White" BorderThickness="3">
+                <Grid>
+
+        <Label x:Name="Label1" Content="Select level:" Margin="10,30,10,490" Style="{StaticResource labelStyle}" />
+      
+        <Button x:Name="b1" Content="Easy" Foreground="White" FontSize="30" FontFamily="Bodoni MT Black" Margin="50, 80, 50, 430" Template="{StaticResource buttonTemplate}" Click="b1Click"/>
+        <Button x:Name="b2" Content="Medium" Foreground="White" FontSize="30" FontFamily="Bodoni MT Black" Margin="50, 170, 50, 340" Template="{StaticResource buttonTemplate}" Click="b2Click"/>
+        <Button x:Name="b3" Content="Hard" Foreground="White" FontSize="30" FontFamily="Bodoni MT Black" Margin="50, 260, 50, 250" Template="{StaticResource buttonTemplate}" Click="b3Click"/>
+        <Button x:Name="b4" Content="Very hard" Foreground="White" FontSize="30" FontFamily="Bodoni MT Black" Margin="50, 350, 50, 160" Template="{StaticResource buttonTemplate}" Click="b4Click"/>
+                    <Button x:Name="b5" Content="Abort game" Foreground="Yellow" FontSize="30" FontFamily="Bodoni MT Black" Margin="50, 470, 50, 40" Template="{StaticResource buttonTemplate}" Click="b5Click"/>
+                </Grid>
+            </Border>
+        </Border>
+    </Grid>
+</Window>

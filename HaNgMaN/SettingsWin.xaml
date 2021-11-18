@@ -1,0 +1,130 @@
+﻿<Window x:Class="HaNgMaN.SettingsWin"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HaNgMaN"
+        mc:Ignorable="d"
+       Title="Records" Height="500" Width="300" WindowStyle="None" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+
+        <Style x:Key="labelStyle">
+            <Setter Property="Label.Background" Value="LimeGreen" />
+            <Setter Property="Label.Foreground" Value="Green" />
+            <Setter Property="Label.FontFamily" Value="Bodoni MT Black" />
+            <Setter Property="Label.FontSize" Value="20" />
+            <Setter Property="Label.FontWeight" Value="Normal"/>
+            <Setter Property="Label.HorizontalContentAlignment" Value="Center"/>
+        </Style>
+        
+        <Style x:Key="radiobuttonStyle">
+            <Setter Property="RadioButton.Background" Value="White" />
+            <Setter Property="RadioButton.Foreground" Value="White" />
+            <Setter Property="RadioButton.FontFamily" Value="Bodoni MT Black" />
+            <Setter Property="RadioButton.FontSize" Value="15" />
+            <Setter Property="RadioButton.FontWeight" Value="Normal"/>
+        </Style>
+        
+        <ControlTemplate x:Key="buttonTemplate" TargetType="{x:Type Button}">
+            <Grid>
+                <Rectangle x:Name="rect1" RadiusX="20" RadiusY="20" Stroke="White" Width="{TemplateBinding Button.Width}" Height="{TemplateBinding Button.Height}" StrokeThickness="2">
+                    <Rectangle.Fill>
+                        <SolidColorBrush x:Name="MyAnimatedBrush" Color="LimeGreen" />
+                    </Rectangle.Fill>
+                    <Rectangle.Effect>
+                        <DropShadowEffect x:Name="shadow1" Opacity="1" BlurRadius="10" Color="Yellow"/>
+                    </Rectangle.Effect>
+
+                </Rectangle>
+                <ContentPresenter Margin="{TemplateBinding Button.Padding}" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{TemplateBinding Button.Content}"/>
+            </Grid>
+
+            <ControlTemplate.Triggers>
+                <Trigger Property="Button.IsMouseOver" Value="True">
+                    <Setter TargetName="rect1" Property="Fill" Value="LightGreen"/>
+                </Trigger>
+
+                <Trigger Property="Button.IsPressed" Value="True">
+                    <Setter Property="RenderTransform">
+                        <Setter.Value>
+                            <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="RenderTransformOrigin" Value=".5,.5"/>
+
+                    <Setter TargetName="rect1" Property="Fill" Value="DarkGreen"/>
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="shadow1"
+                                                 Storyboard.TargetProperty="BlurRadius"
+                                                 To="40" Duration="0:0:0.1"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+
+                    <Trigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="shadow1"
+                                                 Storyboard.TargetProperty="BlurRadius"
+                                                 To="10" Duration="0:0:0.1"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.ExitActions>
+                </Trigger>
+
+                <EventTrigger RoutedEvent="Button.Loaded">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="shadow1"
+                                                 Storyboard.TargetProperty="BlurRadius"                                             
+                                                 To="40" AutoReverse="true" RepeatBehavior="Forever" Duration="0:0:2"
+                                                 />
+                            <ColorAnimation Storyboard.TargetName="shadow1"
+                                            Storyboard.TargetProperty="Color"
+                                                 To="DarkGreen" AutoReverse="true" RepeatBehavior="Forever" Duration="0:0:2"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+    </Window.Resources>
+    <Grid>
+        <Border BorderBrush="DarkGreen" BorderThickness="5">
+            <Border BorderBrush="White" BorderThickness="5">
+                <Grid Background="LimeGreen">
+
+                    <Label x:Name="musicL" Content="Music ON/OFF" Margin="10,10, 10, 440" Style="{StaticResource labelStyle}"/>
+                    <Grid Background="LimeGreen" Margin="100,50, 100, 390">
+                        <Rectangle x:Name="rectangleMusic" Fill="DarkGreen" Margin="2, 2, 2, 2" RadiusY="18.615" RadiusX="18.615" />
+                        <Ellipse x:Name="ellipseMusic" Fill="White" Width="33" Height="33" Margin="0,0,0,0" MouseDown="ellipseMusicMouseDown" />
+                    </Grid>
+                    
+                    <Label x:Name="soundL" Content="Buttons sound ON/OFF" Margin="10,110, 10, 340" Style="{StaticResource labelStyle}"/>
+                    <Grid Background="LimeGreen" Margin="100,150, 100, 290">
+                        <Rectangle x:Name="rectangleSound" Fill="DarkGreen" Margin="2, 2, 2, 2" RadiusY="18.615" RadiusX="18.615" />
+                        <Ellipse x:Name="ellipseSound" Fill="White" Width="33" Height="33" Margin="0,0,0,0" MouseDown="ellipseSoundMouseDown" />
+                    </Grid>
+
+                    <Label x:Name="volumeL" Content="Volume" Margin="10,210, 10, 240" Style="{StaticResource labelStyle}"/>
+                    <Slider Name="volumeSlider"  Margin="10, 250, 10, 190" Width="270" IsSelectionRangeEnabled="True" Orientation="Horizontal" HorizontalAlignment="Left"  Minimum="0" Maximum="10" SmallChange="1" LargeChange="10"
+  TickPlacement="BottomRight" TickFrequency="1" LostMouseCapture="thumbMove" ValueChanged="volumeSlider_ValueChanged" />
+
+                    <Label x:Name="melodyL" Content="Melody" Margin="10,310, 10, 140" Style="{StaticResource labelStyle}"/>
+                    <StackPanel Margin="10, 340, 10, 50" HorizontalAlignment="Center">
+                        <RadioButton Name="rb1" Checked="rbChecked" Style="{StaticResource radiobuttonStyle}">Melody 1</RadioButton>
+                        <RadioButton Name="rb2" Checked="rbChecked" Style="{StaticResource radiobuttonStyle}">Melody 2</RadioButton>
+                        <RadioButton Name="rb3" Checked="rbChecked" Style="{StaticResource radiobuttonStyle}">Melody 3</RadioButton>
+                        <RadioButton Name="rb4" Checked="rbChecked" Style="{StaticResource radiobuttonStyle}">Melody 4</RadioButton>
+                    </StackPanel>
+
+                    <Button x:Name="okButton" Content="OK"  Foreground="White" FontSize="30" FontFamily="Bodoni MT Black" Margin="50, 420, 50, 5"  Template="{StaticResource ResourceKey=buttonTemplate}" Width="83" Height="41" Click="okButtonClick" />
+                </Grid>
+            </Border>
+        </Border>
+
+    </Grid>
+</Window>

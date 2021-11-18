@@ -1,0 +1,356 @@
+﻿<Window x:Class="HaNgMaN.Level3Win"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HaNgMaN"
+        mc:Ignorable="d"
+        Title="HaNgMaN Level 3" Height="600" Width="1000" ResizeMode="NoResize" WindowStyle="None" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+
+        <ControlTemplate x:Key="labelTemplate" TargetType="{x:Type Label}">
+            <Grid Margin="0,0,0,0">
+                <Ellipse x:Name="circle" Stroke="White" StrokeThickness="3" Width="50" Height="50"  HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Ellipse.Fill>
+                        <SolidColorBrush x:Name="MyAnimatedBrush" Color="Transparent" />
+                    </Ellipse.Fill>
+
+                    <Ellipse.RenderTransform>
+                        <ScaleTransform x:Name="st1" ScaleX="1" ScaleY="1"/>
+                    </Ellipse.RenderTransform>
+                    <Ellipse.RenderTransformOrigin>
+                        <Point X="0.5" Y="0.5" />
+                    </Ellipse.RenderTransformOrigin>
+                </Ellipse>
+                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                            RecognizesAccessKey="True"/>
+            </Grid>
+
+            <ControlTemplate.Triggers>
+                <EventTrigger RoutedEvent="Label.MouseEnter">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <ColorAnimation
+                                Storyboard.TargetName="MyAnimatedBrush"
+                                Storyboard.TargetProperty="Color"
+                                To="LightGreen" Duration="0:0:0.1" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="Label.MouseLeave">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <ColorAnimation
+                                Storyboard.TargetName="MyAnimatedBrush"
+                                Storyboard.TargetProperty="Color"
+                                To="Transparent" Duration="0:0:0.1" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+
+                <EventTrigger RoutedEvent="Label.MouseDown">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation 
+                                Storyboard.TargetName="st1"
+                                                 Storyboard.TargetProperty="ScaleX"
+                                                 To="1.2" Duration="0:0:0.1"/>
+                            <DoubleAnimation 
+                                Storyboard.TargetName="st1"
+                                                 Storyboard.TargetProperty="ScaleY"
+                                                 To="1.2" Duration="0:0:0.1"/>
+                            <ColorAnimation
+                                Storyboard.TargetName="MyAnimatedBrush"
+                                Storyboard.TargetProperty="Color"
+                                To="DarkGreen" Duration="0:0:0.1" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+
+                <EventTrigger RoutedEvent="Label.MouseUp">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation 
+                                Storyboard.TargetName="st1"
+                                                 Storyboard.TargetProperty="ScaleX"
+                                                 To="1" Duration="0:0:0.1"/>
+                            <DoubleAnimation 
+                                Storyboard.TargetName="st1"
+                                                 Storyboard.TargetProperty="ScaleY"
+                                                 To="1" Duration="0:0:0.1"/>
+                            <ColorAnimation
+                                Storyboard.TargetName="MyAnimatedBrush"
+                                Storyboard.TargetProperty="Color"
+                                To="Transparent" Duration="0:0:1" />
+
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+        <Style x:Key="labelStyle1">
+            <Setter Property="Label.Background" Value="Transparent" />
+            <Setter Property="Label.Foreground" Value="White" />
+            <Setter Property="Label.FontFamily" Value="Berlin Sans FB" />
+            <Setter Property="Label.FontSize" Value="25" />
+            <Setter Property="Label.FontWeight" Value="Normal" />
+            <Setter Property="Label.BorderBrush" Value=" White"/>
+            <Setter Property="Label.BorderThickness" Value="3"/>
+        </Style>
+
+        <Style x:Key="textBlockStyle">
+            <Setter Property="TextBlock.Background" Value="Transparent" />
+            <Setter Property="TextBlock.Foreground" Value="White" />
+            <Setter Property="TextBlock.FontFamily" Value="Berlin Sans FB" />
+            <Setter Property="TextBlock.FontSize" Value="45" />
+            <Setter Property="TextBlock.FontWeight" Value="Normal"/>
+            <Setter Property="TextBlock.Width" Value="35"/>
+            <Setter Property="TextBlock.Height" Value="50"/>
+            <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+        </Style>
+
+
+
+        <ControlTemplate x:Key="buttonTemplate" TargetType="{x:Type Button}" >
+            <Grid>
+               
+                <Rectangle x:Name="rect1" RadiusX="20" RadiusY="20" Stroke="White" Width="{TemplateBinding Button.Width}" Height="{TemplateBinding Button.Height}" StrokeThickness="2" Tag="{TemplateBinding Tag}">
+                    <Rectangle.Fill>
+                        <SolidColorBrush x:Name="MyAnimatedBrush" Color="Transparent" />
+                        <!--<ImageBrush ImageSource="{Binding ElementName=_this, Path=Tag.Content}"/>-->
+                    </Rectangle.Fill>
+                    <Rectangle.Effect>
+                        <DropShadowEffect x:Name="shadow1" Opacity="1" BlurRadius="10" Color="Yellow"/>
+                    </Rectangle.Effect>
+
+                </Rectangle>
+                <ContentPresenter Margin="{TemplateBinding Button.Padding}" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{TemplateBinding Button.Content}"/>
+            </Grid>
+
+            <ControlTemplate.Triggers>
+                <Trigger Property="Button.IsMouseOver" Value="True">
+                    <Setter TargetName="rect1" Property="Fill" Value="LightGreen"/>
+                </Trigger>
+
+                <Trigger Property="Button.IsPressed" Value="True">
+                    <Setter Property="RenderTransform">
+                        <Setter.Value>
+                            <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="RenderTransformOrigin" Value=".5,.5"/>
+
+                    <Setter TargetName="rect1" Property="Fill" Value="DarkGreen"/>
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="shadow1"
+                                                 Storyboard.TargetProperty="BlurRadius"
+                                                 To="40" Duration="0:0:0.1"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+
+                    <Trigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="shadow1"
+                                                 Storyboard.TargetProperty="BlurRadius"
+                                                 To="10" Duration="0:0:0.1"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.ExitActions>
+                </Trigger>
+
+                <EventTrigger RoutedEvent="Button.Loaded">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="shadow1"
+                                                 Storyboard.TargetProperty="BlurRadius"                                             
+                                                 To="40" AutoReverse="true" RepeatBehavior="Forever" Duration="0:0:2"
+                                                 />
+                            <ColorAnimation Storyboard.TargetName="shadow1"
+                                            Storyboard.TargetProperty="Color"
+                                                 To="DarkGreen" AutoReverse="true" RepeatBehavior="Forever" Duration="0:0:2"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+    </Window.Resources>
+
+    <Grid Background="LimeGreen">
+        <Border BorderBrush="DarkGreen" BorderThickness="3">
+            <Border BorderBrush="White" BorderThickness="3">
+                <Grid>
+                <Grid Margin="10,320,-10,48">
+            
+            <Label x:Name="la" Content="A" Margin="40,0,769,140" Template="{StaticResource labelTemplate}" Style="{StaticResource labelStyle1}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" MouseDown="laMouseDown"/>
+            <Label x:Name="lb" Content="B" Margin="122,0,697,140" Template="{StaticResource labelTemplate}" Style="{StaticResource labelStyle1}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" MouseDown="lbMouseDown"/>
+            <Label x:Name="lc" Content="C" Margin="194,0,625,140" Template="{StaticResource labelTemplate}" Style="{StaticResource labelStyle1}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" MouseDown="lcMouseDown"/>
+            <Label x:Name="ld" Content="D" Margin="266,0,553,140" Template="{StaticResource labelTemplate}" Style="{StaticResource labelStyle1}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" MouseDown="ldMouseDown"/>
+            <Label x:Name="le" Content="E" Margin="338,0,481,140" Template="{StaticResource labelTemplate}" Style="{StaticResource labelStyle1}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" MouseDown="leMouseDown"/>
+            <Label x:Name="lf" Content="F" Margin="410,0,409,140" Template="{StaticResource labelTemplate}" Style="{StaticResource labelStyle1}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" MouseDown="lfMouseDown"/>
+            <Label x:Name="lg" Content="G" Margin="482,0,337,140" Template="{StaticResource labelTemplate}" Style="{StaticResource labelStyle1}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" MouseDown="lgMouseDown"/>
+            <Label x:Name="lh" Content="H" Margin="554,0,265,140" Template="{StaticResource labelTemplate}" Style="{StaticResource labelStyle1}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" MouseDown="lhMouseDown"/>
+            <Label x:Name="li" Content="I" Margin="626,0,193,140" Template="{StaticResource labelTemplate}" Style="{StaticResource labelStyle1}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" MouseDown="liMouseDown"/>
+
+            <Label x:Name="lj" Content="J" Margin="40,70,769,70" Template="{StaticResource labelTemplate}" Style="{StaticResource labelStyle1}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" MouseDown="ljMouseDown"/>
+            <Label x:Name="lk" Content="K" Margin="122,70,697,70" Template="{StaticResource labelTemplate}" Style="{StaticResource labelStyle1}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" MouseDown="lkMouseDown"/>
+            <Label x:Name="ll" Content="L" Margin="194,70,625,70" Template="{StaticResource labelTemplate}" Style="{StaticResource labelStyle1}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" MouseDown="llMouseDown"/>
+            <Label x:Name="lm" Content="M" Margin="266,70,553,70" Template="{StaticResource labelTemplate}" Style="{StaticResource labelStyle1}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" MouseDown="lmMouseDown"/>
+            <Label x:Name="ln" Content="N" Margin="338,70,481,70" Template="{StaticResource labelTemplate}" Style="{StaticResource labelStyle1}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" MouseDown="lnMouseDown"/>
+            <Label x:Name="lo" Content="O" Margin="410,70,409,70" Template="{StaticResource labelTemplate}" Style="{StaticResource labelStyle1}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" MouseDown="loMouseDown"/>
+            <Label x:Name="lp" Content="P" Margin="482,70,337,70" Template="{StaticResource labelTemplate}" Style="{StaticResource labelStyle1}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" MouseDown="lpMouseDown"/>
+            <Label x:Name="lq" Content="Q" Margin="554,70,265,70" Template="{StaticResource labelTemplate}" Style="{StaticResource labelStyle1}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" MouseDown="lqMouseDown"/>
+            <Label x:Name="lr" Content="R" Margin="626,70,193,70" Template="{StaticResource labelTemplate}" Style="{StaticResource labelStyle1}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" MouseDown="lrMouseDown"/>
+
+
+            <Label x:Name="ls" Content="S" Margin="76,140,733,0" Template="{StaticResource labelTemplate}" Style="{StaticResource labelStyle1}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" MouseDown="lsMouseDown"/>
+            <Label x:Name="lt" Content="T" Margin="158,140,661,0" Template="{StaticResource labelTemplate}" Style="{StaticResource labelStyle1}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" MouseDown="ltMouseDown"/>
+            <Label x:Name="lu" Content="U" Margin="230,140,589,0" Template="{StaticResource labelTemplate}" Style="{StaticResource labelStyle1}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" MouseDown="luMouseDown"/>
+            <Label x:Name="lv" Content="V" Margin="302,140,517,0" Template="{StaticResource labelTemplate}" Style="{StaticResource labelStyle1}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" MouseDown="lvMouseDown"/>
+            <Label x:Name="lw" Content="W" Margin="374,140,445,0" Template="{StaticResource labelTemplate}" Style="{StaticResource labelStyle1}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" MouseDown="lwMouseDown"/>
+            <Label x:Name="lx" Content="X" Margin="446,140,373,0" Template="{StaticResource labelTemplate}" Style="{StaticResource labelStyle1}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" MouseDown="lxMouseDown"/>
+            <Label x:Name="ly" Content="Y" Margin="518,140,301,0" Template="{StaticResource labelTemplate}" Style="{StaticResource labelStyle1}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" MouseDown="lyMouseDown"/>
+            <Label x:Name="lz" Content="Z" Margin="590,140,229,0" Template="{StaticResource labelTemplate}" Style="{StaticResource labelStyle1}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" MouseDown="lzMouseDown"/>
+        </Grid>
+        <Grid x:Name="textGrid" Margin="0,230,126,270" >
+            <TextBlock x:Name="t1" Text="" Style="{StaticResource ResourceKey=textBlockStyle}" Margin="10,0,770,0"/>
+            <TextBlock x:Name="t2" Text="" Style="{StaticResource ResourceKey=textBlockStyle}" Margin="50,0,730,0" />
+            <TextBlock x:Name="t3" Text="" Style="{StaticResource ResourceKey=textBlockStyle}" Margin="90,0,690,0"/>
+            <TextBlock x:Name="t4" Text="" Style="{StaticResource ResourceKey=textBlockStyle}" Margin="130,0,650,0"/>
+            <TextBlock x:Name="t5" Text="" Style="{StaticResource ResourceKey=textBlockStyle}" Margin="170,0,610,0"/>
+            <TextBlock x:Name="t6" Text="" Style="{StaticResource ResourceKey=textBlockStyle}" Margin="210,0,570,0"/>
+            <TextBlock x:Name="t7" Text="" Style="{StaticResource ResourceKey=textBlockStyle}" Margin="250,0,530,0"/>
+            <TextBlock x:Name="t8" Text="" Style="{StaticResource ResourceKey=textBlockStyle}" Margin="290,0,490,0"/>
+            <TextBlock x:Name="t9" Text="" Style="{StaticResource ResourceKey=textBlockStyle}" Margin="330,0,450,0"/>
+            <TextBlock x:Name="t10" Text="" Style="{StaticResource ResourceKey=textBlockStyle}" Margin="370,0,410,0"/>
+            <TextBlock x:Name="t11" Text="" Style="{StaticResource ResourceKey=textBlockStyle}" Margin="410,0,370,0"/>
+            <TextBlock x:Name="t12" Text="" Style="{StaticResource ResourceKey=textBlockStyle}" Margin="450,0,330,0"/>
+            <TextBlock x:Name="t13" Text="" Style="{StaticResource ResourceKey=textBlockStyle}" Margin="490,0,290,0"/>
+            <TextBlock x:Name="t14" Text="" Style="{StaticResource ResourceKey=textBlockStyle}" Margin="530,0,250,0"/>
+            <TextBlock x:Name="t15" Text="" Style="{StaticResource ResourceKey=textBlockStyle}" Margin="570,0,210,0"/>
+            <TextBlock x:Name="t16" Text="" Style="{StaticResource ResourceKey=textBlockStyle}" Margin="610,0,170,0"/>
+            <TextBlock x:Name="t17" Text="" Style="{StaticResource ResourceKey=textBlockStyle}" Margin="650,0,130,0"/>
+            <TextBlock x:Name="t18" Text="" Style="{StaticResource ResourceKey=textBlockStyle}" Margin="690,0,90,0"/>
+            <TextBlock x:Name="t19" Text="" Style="{StaticResource ResourceKey=textBlockStyle}" Margin="730,0,50,0"/>
+            <TextBlock x:Name="t20" Text="" Style="{StaticResource ResourceKey=textBlockStyle}" Margin="770,0,10,0"/>
+        </Grid>
+        <Grid Margin="858,0,10,10">
+            <Button x:Name="settingsButton" Margin="15,10,15,470" Click="settingsButtonClick" Template="{StaticResource buttonTemplate}" Tag="settings.png"  Panel.ZIndex="3"/>
+            <Rectangle x:Name="r1"  Margin="25,20,25,480">
+                <Rectangle.Fill>
+                    <ImageBrush ImageSource="settings.png"/>
+                </Rectangle.Fill>
+            </Rectangle>
+
+
+            <Button x:Name="soundButton" Margin="15,120,15,360" Click="soundButtonClick" Template="{StaticResource buttonTemplate}" Tag="sound.png" Panel.ZIndex="3"/>
+            <Rectangle x:Name="r2"  Margin="25,130,25,370">
+                <Rectangle.Fill>
+                    <ImageBrush ImageSource="sound.png"/>
+                </Rectangle.Fill>
+            </Rectangle>
+
+            <Button x:Name="resordsButton" Margin="15,230,15,250" Click="recordsButtonClick" Template="{StaticResource buttonTemplate}" Panel.ZIndex="3"/>
+            <Rectangle x:Name="r3"  Margin="25,240,25,260">
+                <Rectangle.Fill>
+                    <ImageBrush ImageSource="record.png"/>
+                </Rectangle.Fill>
+            </Rectangle>
+
+            <Button x:Name="statsButton" Margin="15,340,15,140" Click="statsButtonClick" Template="{StaticResource buttonTemplate}" Panel.ZIndex="3"/>
+            <Rectangle x:Name="r4"  Margin="25,350,25,150">
+                <Rectangle.Fill>
+                    <ImageBrush ImageSource="rules.jpg"/>
+                </Rectangle.Fill>
+            </Rectangle>
+
+            <Button x:Name="exitButton" Margin="15,450,15,30" Click="exitButtonClick" Template="{StaticResource buttonTemplate}" Panel.ZIndex="3"/>
+            <Rectangle x:Name="r5"  Margin="25,460,25,40">
+                <Rectangle.Fill>
+                    <ImageBrush ImageSource="exit.jpg"/>
+                </Rectangle.Fill>
+            </Rectangle>
+
+        </Grid>
+
+        <Viewbox x:Name="viewBox1" Margin="10,10,560,350" >
+            <Grid x:Name="viewGrid" Background="Lime" Height="210" Width="420">
+                <Rectangle x:Name="Vertical" Fill="White" Opacity="0.5" Width="5" Height="190" Margin="10,10,405,10" />
+
+                <Rectangle x:Name="Diagonal" Fill="White" Opacity="0.5" Width="5" Height="30" Margin="23,7,392,173" RenderTransformOrigin="0.5,0.5" >
+                    <Rectangle.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="46.368"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Rectangle.RenderTransform>
+                </Rectangle>
+                <Rectangle x:Name="Horizontal" Fill="White" Opacity="0.5" Width="160" Height="5" RenderTransformOrigin="0.5,0.5" Margin="10,5,250,200" />
+                <Rectangle x:Name="Rope" Fill="White" Opacity="0.5" Width="3" Height="30" Margin="165,10,250,170" RenderTransformOrigin="0.5,0.5" />
+                <Ellipse x:Name="Head" Width="20" Height="20" Stroke="White" StrokeThickness="4" Opacity="0.5" Margin="146,25,254,165"/>
+                <Ellipse x:Name="Body" Width="20" Height="60" Stroke="White" StrokeThickness="4" Opacity="0.5" Margin="157,40,243,110"/>
+                <Rectangle x:Name="RightHand" Fill="White" Opacity="0.5" Width="4" Height="30" Margin="146,37,270,143" RenderTransformOrigin="0.5,0.5" >
+                    <Rectangle.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="73.03"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Rectangle.RenderTransform>
+                </Rectangle>
+                <Rectangle x:Name="LeftHand" Fill="White" Opacity="0.6" Width="4" Height="30" Margin="180,39,236,141" RenderTransformOrigin="0.5,0.5" >
+                    <Rectangle.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="-50.849"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Rectangle.RenderTransform>
+                </Rectangle>
+                <Rectangle x:Name="RightLeg" Fill="White" Opacity="0.6" Width="5" Height="40" Margin="151,95,264,75" RenderTransformOrigin="0.5,0.5" >
+                    <Rectangle.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="34.006"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Rectangle.RenderTransform>
+                </Rectangle>
+                <Rectangle x:Name="LeftLeg" Fill="White" Opacity="0.6" Width="5" Height="40" Margin="178,94,237,76" RenderTransformOrigin="0.5,0.5" >
+                    <Rectangle.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="-32.183"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Rectangle.RenderTransform>
+                </Rectangle>
+
+            </Grid>
+        </Viewbox>
+
+        <StatusBar x:Name="statusBar"  Background="Lime" FontFamily="Berlin Sans FB" FontSize="15" Foreground="DarkGreen" VerticalAlignment="Bottom">
+            <StatusBarItem x:Name="name" Content="Player name: _____" />
+            <StatusBarItem x:Name="gameCount" Content="Games played: _____"/>
+            <StatusBarItem x:Name="wins" Content="Games won: _____" />
+            <StatusBarItem x:Name="points" Content="Points earned: _____" />
+            <StatusBarItem x:Name="level" Content="Current game level: _____" />
+        </StatusBar>
+                </Grid>
+        </Border>
+        </Border>
+    </Grid>
+</Window>
